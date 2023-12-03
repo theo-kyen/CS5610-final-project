@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from "react";
 import Nav from "../../Nav";
+import SearchBar from "../SearchBar";
 import search from "./client";
 import { setResults } from "../../reducers/searchReducer";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,16 +17,30 @@ const Search = () => {
       dispatch(setResults(results));
     }
     getResults();
-  }, []);
-
+  }, [query]);
   return (
     <div>
       <Nav />
-      <h2 className="ms-2 mt-2">Search Results for '{query}'</h2>
-      <div>
-        {results.data && results.data.map((song) => {
-          <p>{song.title}</p>
-        })}
+      <div className="text-center">
+        <h2 className="ms-3 mt-2">Search Results for '{query}'</h2>
+        <div className="d-flex justify-content-center">
+          <SearchBar placeholder={"search for another artist or album..."} />
+        </div>
+        <div className="ms-0 mt-3 ">
+          <div className="row row-cols-5">
+            {results.data &&
+              results.data.map((song, index) => (
+                <div key={index} className="mb-3 text-center">
+                  <img
+                    src={song["album"]["cover_medium"]}
+                    className="border border-black"
+                  />
+                  <br />
+                  <a href={`#`}>{song.title}</a>
+                </div>
+              ))}
+          </div>
+        </div>
       </div>
     </div>
   );

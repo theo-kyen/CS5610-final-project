@@ -1,12 +1,8 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import Nav from "../Nav";
-import { setQuery } from "../reducers/searchReducer.js";
-import { useDispatch, useSelector } from "react-redux";
+import SearchBar from "./SearchBar.js";
 
 const Home = () => {
-  const query = useSelector((state) => state.searchReducer.query);
-  const dispatch = useDispatch();
 
   return (
     <div>
@@ -16,24 +12,7 @@ const Home = () => {
           <h1 className="mb-0">Music App</h1>
           <label>find all your favorite music</label>
         </div>
-        <div className="d-flex mt-2">
-          <input
-            type="search"
-            className="form-control me-2"
-            placeholder="search for an artist or album..."
-            style={{ width: 300 }}
-            onChange={(e) => {
-              e.preventDefault();
-              dispatch(setQuery(e.target.value));
-            }}
-          />
-          <Link
-            to={`/search/${query}`}
-            className="btn btn-primary"
-          >
-            search
-          </Link>
-        </div>
+        <SearchBar placeholder={"search for an artist or album..."}/>
       </div>
     </div>
   );
