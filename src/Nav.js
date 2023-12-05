@@ -14,6 +14,18 @@ const Nav = () => {
         Home
       </Link>
       <Link
+        to="/signup"
+        className={`nav-link ${pathname.includes("home") ? "active" : ""}`}
+      >
+        Sign Up
+      </Link>
+      <Link
+        to="/signin"
+        className={`nav-link ${pathname.includes("home") ? "active" : ""}`}
+      >
+        Sign In
+      </Link>
+      <Link
         to="/profile"
         className={`nav-link ${pathname.includes("profile") ? "active" : ""}`}
       >

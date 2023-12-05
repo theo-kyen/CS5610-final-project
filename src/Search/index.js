@@ -1,10 +1,11 @@
 import { React, useState, useEffect } from "react";
-import Nav from "../../Nav";
-import SearchBar from "../SearchBar";
+import Nav from "../Nav";
+import SearchBar from "../Home/SearchBar";
 import search from "./client";
-import { setResults } from "../../reducers/searchReducer";
+import { setResults } from "../reducers/searchReducer";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router";
+import { FaCirclePlus } from "react-icons/fa6";
 
 const Search = () => {
   const query = useParams()["*"];
@@ -36,7 +37,10 @@ const Search = () => {
                     className="border border-black"
                   />
                   <br />
-                  <a href={`#`}>{song.title}</a>
+                  <div>
+                    <a className="me-2" href={`#`} style={{textDecoration: "none"}}>{song.title}</a>
+                    <FaCirclePlus className="text-primary" onClick={() => console.log(song.title)} />
+                  </div>
                 </div>
               ))}
           </div>

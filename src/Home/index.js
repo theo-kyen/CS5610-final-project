@@ -3,16 +3,31 @@ import Nav from "../Nav";
 import SearchBar from "./SearchBar.js";
 
 const Home = () => {
-
   return (
     <div>
       <Nav />
       <div className="d-flex flex-column align-items-center justify-content-center">
-        <div className="text-center">
-          <h1 className="mb-0">Music App</h1>
-          <label>find all your favorite music</label>
+        <div className="mb-4">
+          <div className="text-center">
+            <h1 className="mb-0">Music App</h1>
+            <label>find all your favorite music</label>
+          </div>
+          <SearchBar placeholder={"search for an artist or album..."} />
         </div>
-        <SearchBar placeholder={"search for an artist or album..."}/>
+        <div className="d-flex flex-column align-items-center">
+          <h2>
+            Liked Songs
+          </h2>
+          <table className="table table-secondary table-striped-columns">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Duration</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
       </div>
     </div>
   );

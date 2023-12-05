@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import UserProfile from "./user";
+import UserProfile from "./profile";
 import EditProfile from "./EditProfile";
 
 const Profile = () => {
