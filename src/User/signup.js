@@ -17,7 +17,6 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if the confirmations match
     if (credentials.username !== credentials.confirmUsername) {
       setError('Usernames do not match.');
       return;
@@ -27,58 +26,54 @@ const Signup = () => {
       return;
     }
 
-    // Backend API call to submit the credentials
     try {
       console.log('Submitting', credentials);
       // Your API call here
-      // Handle successful signup (e.g., show a success message)
       setError('');
     } catch (error) {
-      setError('An error occurred. Please try again.'); // Update with actual error message
+      setError('An error occurred. Please try again.');
     }
   };
 
-  const formStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '300px',
-    margin: '20px auto',
-    padding: '20px',
-    borderRadius: '10px',
-    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+  // Inline CSS for styling
+  const styles = {
+    formContainer: {
+      maxWidth: '400px',
+      margin: '20px auto',
+      padding: '20px',
+      borderRadius: '8px',
+      boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+      textAlign: 'center'
+    },
+    input: {
+      width: '100%',
+      padding: '10px',
+      marginBottom: '10px',
+      borderRadius: '4px',
+      border: '1px solid #ccc'
+    },
+    button: {
+      width: '100%',
+      padding: '10px',
+      borderRadius: '4px',
+      border: 'none',
+      backgroundColor: '#007bff',
+      color: 'white',
+      cursor: 'pointer'
+    },
+    error: {
+      color: 'red',
+      marginBottom: '10px'
+    }
   };
-
-  const inputStyle = {
-    margin: '10px 0',
-    padding: '10px',
-    borderRadius: '5px',
-    border: '1px solid #ddd',
-  };
-
-  const buttonStyle = {
-    padding: '10px',
-    border: 'none',
-    borderRadius: '5px',
-    backgroundColor: '#007bff',
-    color: 'white',
-    cursor: 'pointer',
-  };
-
-  const errorStyle = {
-    color: 'red',
-    textAlign: 'center',
-    margin: '10px 0',
-  };
-
-
 
   return (
     <div>
       <Nav />
-      <div className="mt-2 ms-3">
+      <div style={styles.formContainer}>
         <h2>Sign Up</h2>
-        <form onSubmit={handleSubmit} /* Add your form styling here */>
-          {error && <div /* Add your error styling here */>{error}</div>}
+        {error && <div style={styles.error}>{error}</div>}
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             id="username"
@@ -87,7 +82,7 @@ const Signup = () => {
             value={credentials.username}
             onChange={handleChange}
             required
-            /* Add your input styling here */
+            style={styles.input}
           />
           <input
             type="text"
@@ -97,7 +92,7 @@ const Signup = () => {
             value={credentials.confirmUsername}
             onChange={handleChange}
             required
-            /* Add your input styling here */
+            style={styles.input}
           />
           <input
             type="password"
@@ -107,7 +102,7 @@ const Signup = () => {
             value={credentials.password}
             onChange={handleChange}
             required
-            /* Add your input styling here */
+            style={styles.input}
           />
           <input
             type="password"
@@ -117,9 +112,9 @@ const Signup = () => {
             value={credentials.confirmPassword}
             onChange={handleChange}
             required
-            /* Add your input styling here */
+            style={styles.input}
           />
-          <button type="submit" /* Add your button styling here */>Signup</button>
+          <button type="submit" style={styles.button}>Signup</button>
         </form>
       </div>
     </div>
