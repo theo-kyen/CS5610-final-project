@@ -1,17 +1,58 @@
-import { React, useState, useEffect } from "react";
+import { React, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Nav from "../Nav";
 import SearchBar from "../Home/SearchBar";
 import search from "./client";
-import { setResults } from "../reducers/searchReducer";
+import * as client from "../User/client.js";
 import { useSelector, useDispatch } from "react-redux";
+import { updateUserSongs } from "../reducers/userReducer.js";
+import { setResults } from "../reducers/searchReducer.js";
 import { useParams } from "react-router";
-import { FaCirclePlus } from "react-icons/fa6";
+import { FaCirclePlus, FaCircleCheck } from "react-icons/fa6";
 
 const Search = () => {
   const query = useParams()["*"];
   const results = useSelector((state) => state.searchReducer.results);
+  const account = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  let songs = [];
 
+  function checkIfLiked(song) {
+    if (account) {
+      account.likedSongs.forEach((s) => {
+        if (s.id == song.id) {
+          return true;
+        }
+      });
+    }
+    return false;
+  }
+
+  async function addSong(song) {
+    if (account) {
+      const newSong = {
+        title: song.title,
+        id: song.id,
+        cover: song["album"]["cover_medium"],
+        artist: song["artist"]["name"],
+        duration: song.duration,
+      };
+      if (!checkIfLiked(newSong)) {
+        dispatch(updateUserSongs([...account.likedSongs, newSong]));
+        await client.updateUser(account);
+        console.log(account.likedSongs);
+      }
+    } else {
+      navigate("/signin");
+    }
+  }
+
+  useEffect(() => {
+    if (account) {
+      songs = account.likedSongs;
+    }
+  }, []);
   useEffect(() => {
     async function getResults() {
       const results = await search(query);
@@ -19,6 +60,7 @@ const Search = () => {
     }
     getResults();
   }, [query]);
+
   return (
     <div>
       <Nav />
@@ -38,8 +80,14 @@ const Search = () => {
                   />
                   <br />
                   <div>
-                    <a className="me-2" href={`#`} style={{textDecoration: "none"}}>{song.title}</a>
-                    <FaCirclePlus className="text-primary" onClick={() => console.log(song.title)} />
+                    <label className="me-2" href={`#`} style={{ fontSize: 14 }}>
+                      {song.title}
+                    </label>
+                    <FaCirclePlus
+                      className="text-primary"
+                      onClick={() => addSong(song)}
+                      style={{ cursor: "pointer" }}
+                    />
                   </div>
                 </div>
               ))}

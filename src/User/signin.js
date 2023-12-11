@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
-import Nav from '../Nav.js';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Nav from "../Nav.js";
+import * as client from "./client.js";
 
 const Signin = () => {
-  const [credentials, setCredentials] = useState({ username: '', password: '' });
-  const [error, setError] = useState('');
+  const [credentials, setCredentials] = useState({
+    username: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -11,46 +17,49 @@ const Signin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here, you will integrate with the backend API for signing in
     try {
-      console.log('Signing in', credentials);
-      // Replace console.log with your API call
-      setError('');
+      try {
+        await client.signin(credentials);
+        navigate("/profile");
+      } catch (e) {
+        setError(e.response.data.message);
+      }
+      setError("");
     } catch (error) {
-      setError('An error occurred during sign in. Please try again.');
+      setError("An error occurred during sign in. Please try again.");
     }
   };
 
   // Inline CSS for styling
   const styles = {
     formContainer: {
-      maxWidth: '400px',
-      margin: '20px auto',
-      padding: '20px',
-      borderRadius: '8px',
-      boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-      textAlign: 'center'
+      maxWidth: "400px",
+      margin: "20px auto",
+      padding: "20px",
+      borderRadius: "8px",
+      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+      textAlign: "center",
     },
     input: {
-      width: '100%',
-      padding: '10px',
-      marginBottom: '10px',
-      borderRadius: '4px',
-      border: '1px solid #ccc'
+      width: "100%",
+      padding: "10px",
+      marginBottom: "10px",
+      borderRadius: "4px",
+      border: "1px solid #ccc",
     },
     button: {
-      width: '100%',
-      padding: '10px',
-      borderRadius: '4px',
-      border: 'none',
-      backgroundColor: '#007bff',
-      color: 'white',
-      cursor: 'pointer'
+      width: "100%",
+      padding: "10px",
+      borderRadius: "4px",
+      border: "none",
+      backgroundColor: "#007bff",
+      color: "white",
+      cursor: "pointer",
     },
     error: {
-      color: 'red',
-      marginBottom: '10px'
-    }
+      color: "red",
+      marginBottom: "10px",
+    },
   };
 
   return (
@@ -80,7 +89,9 @@ const Signin = () => {
             required
             style={styles.input}
           />
-          <button type="submit" style={styles.button}>Sign In</button>
+          <button type="submit" style={styles.button}>
+            Sign In
+          </button>
         </form>
       </div>
     </div>
@@ -88,4 +99,3 @@ const Signin = () => {
 };
 
 export default Signin;
-

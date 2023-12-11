@@ -1,6 +1,7 @@
 import React from "react";
 import Nav from "../Nav";
 import SearchBar from "./SearchBar.js";
+import Songs from "../User/songs.js";
 
 const Home = () => {
   return (
@@ -14,20 +15,7 @@ const Home = () => {
           </div>
           <SearchBar placeholder={"search for an artist or album..."} />
         </div>
-        <div className="d-flex flex-column align-items-center">
-          <h2>
-            Liked Songs
-          </h2>
-          <table className="table table-secondary table-striped-columns">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Artist</th>
-                <th>Duration</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
+        <Songs />
       </div>
     </div>
   );

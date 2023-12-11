@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
-import Nav from '../Nav.js';
+import React, { useState } from "react";
+import Nav from "../Nav.js";
+import * as client from "./client.js";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [credentials, setCredentials] = useState({
-    username: '',
-    password: '',
-    confirmPassword: '',
-    confirmUsername: ''
+    username: "",
+    password: "",
+    confirmPassword: "",
+    confirmUsername: "",
+    firstName: "",
+    lastName: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
@@ -18,53 +23,57 @@ const Signup = () => {
     e.preventDefault();
 
     if (credentials.username !== credentials.confirmUsername) {
-      setError('Usernames do not match.');
+      setError("Usernames do not match.");
       return;
     }
     if (credentials.password !== credentials.confirmPassword) {
-      setError('Passwords do not match.');
+      setError("Passwords do not match.");
       return;
     }
 
     try {
-      console.log('Submitting', credentials);
-      // Your API call here
-      setError('');
+      try {
+        await client.signup(credentials);
+        navigate("/profile");
+      } catch (e) {
+        setError(e.response.data.message);
+      }
+      setError("");
     } catch (error) {
-      setError('An error occurred. Please try again.');
+      setError("An error occurred. Please try again.");
     }
   };
 
   // Inline CSS for styling
   const styles = {
     formContainer: {
-      maxWidth: '400px',
-      margin: '20px auto',
-      padding: '20px',
-      borderRadius: '8px',
-      boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-      textAlign: 'center'
+      maxWidth: "400px",
+      margin: "20px auto",
+      padding: "20px",
+      borderRadius: "8px",
+      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+      textAlign: "center",
     },
     input: {
-      width: '100%',
-      padding: '10px',
-      marginBottom: '10px',
-      borderRadius: '4px',
-      border: '1px solid #ccc'
+      width: "100%",
+      padding: "10px",
+      marginBottom: "10px",
+      borderRadius: "4px",
+      border: "1px solid #ccc",
     },
     button: {
-      width: '100%',
-      padding: '10px',
-      borderRadius: '4px',
-      border: 'none',
-      backgroundColor: '#007bff',
-      color: 'white',
-      cursor: 'pointer'
+      width: "100%",
+      padding: "10px",
+      borderRadius: "4px",
+      border: "none",
+      backgroundColor: "#007bff",
+      color: "white",
+      cursor: "pointer",
     },
     error: {
-      color: 'red',
-      marginBottom: '10px'
-    }
+      color: "red",
+      marginBottom: "10px",
+    },
   };
 
   return (
@@ -114,7 +123,29 @@ const Signup = () => {
             required
             style={styles.input}
           />
-          <button type="submit" style={styles.button}>Signup</button>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            placeholder="First Name"
+            value={credentials.firstName}
+            onChange={handleChange}
+            required
+            style={styles.input}
+          />
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            placeholder="Last Name"
+            value={credentials.lastName}
+            onChange={handleChange}
+            required
+            style={styles.input}
+          />
+          <button type="submit" style={styles.button}>
+            Signup
+          </button>
         </form>
       </div>
     </div>
@@ -122,4 +153,3 @@ const Signup = () => {
 };
 
 export default Signup;
-
