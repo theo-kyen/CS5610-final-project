@@ -18,17 +18,13 @@ const Signin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      try {
-        await client.signin(credentials);
-        navigate("/profile");
-      } catch (e) {
-        setError(e.response.data.message);
-      }
-      setError("");
-    } catch (error) {
-      setError("An error occurred during sign in. Please try again.");
+      await client.signin(credentials);
+      navigate("/profile");
+    } catch (e) {
+      setError(e.response?.data?.message || "An error occurred during sign in. Please try again.");
     }
   };
+  
 
   // Inline CSS for styling
   const styles = {
