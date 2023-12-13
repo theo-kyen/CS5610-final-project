@@ -7,6 +7,8 @@ import Search from "./Search";
 import Signup from "./User/signup.js";
 import Signin from "./User/signin.js";
 import Profile from "./User/Profile";
+import Users from "./User/users.js";
+import ExternalProfile from "./User/Profile/external.js";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
             <Route path="signup" element={<Signup />} />
             <Route path="signin" element={<Signin />} />
             <Route path="profile/*" element={<Profile />} />
+            <Route path="users/*" element={<Users />} />
+            <Route path="users/:userId" element={<ExternalProfile />} />
           </Routes>
         </div>
       </HashRouter>

@@ -12,7 +12,6 @@ const userSlice = createSlice({
       state.user = action.payload;
     },
     updateUser: (state, action) => {
-
       if (action.payload.username) {
         state.user.username = action.payload.username;
       }

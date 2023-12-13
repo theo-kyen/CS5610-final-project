@@ -23,10 +23,8 @@ const EditProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(account);
       dispatch(updateUser(credentials));
       await client.updateUser(account);
-      console.log(account);
       navigate("/profile");
     } catch (error) {
       setError("An error occurred. Please try again.");

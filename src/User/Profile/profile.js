@@ -29,7 +29,7 @@ const UserProfile = () => {
     <div>
       <Nav />
       <div className=" mt-3 ms-3">
-        {account ? (
+        {account !== null && account !== "" ? (
           <div>
             <FaCircleUser style={{ width: "100px", height: "100px" }} />
             <h2>{account.username}</h2>
@@ -39,6 +39,7 @@ const UserProfile = () => {
             <div className="mb-3">
               <Songs inProfile={true} />
             </div>
+            <button className="btn btn-secondary mb-2" onClick={() => navigate("/users")}>Other Users</button>
             <div>
               <button
                 onClick={() => navigate("/profile/edit")}
