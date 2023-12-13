@@ -19,14 +19,16 @@ const Search = () => {
   let songs = [];
 
   function checkIfLiked(song) {
+    let liked = false;
     if (account) {
       account.likedSongs.forEach((s) => {
         if (s.id == song.id) {
-          return true;
+          liked = true;
+          return;
         }
       });
     }
-    return false;
+    return liked;
   }
 
   async function addSong(song) {
@@ -38,11 +40,8 @@ const Search = () => {
         artist: song["artist"]["name"],
         duration: song.duration,
       };
-      if (!checkIfLiked(newSong)) {
-        dispatch(updateUserSongs([...account.likedSongs, newSong]));
-        await client.updateUser(account);
-        console.log(account.likedSongs);
-      }
+      dispatch(updateUserSongs([...account.likedSongs, newSong]));
+      await client.updateUser(account);
     } else {
       navigate("/signin");
     }
@@ -83,11 +82,15 @@ const Search = () => {
                     <label className="me-2" href={`#`} style={{ fontSize: 14 }}>
                       {song.title}
                     </label>
-                    <FaCirclePlus
-                      className="text-primary"
-                      onClick={() => addSong(song)}
-                      style={{ cursor: "pointer" }}
-                    />
+                    {checkIfLiked(song) ? (
+                      <FaCircleCheck className="text-success" />
+                    ) : (
+                      <FaCirclePlus
+                        className="text-primary"
+                        onClick={() => addSong(song)}
+                        style={{ cursor: "pointer" }}
+                      />
+                    )}
                   </div>
                 </div>
               ))}

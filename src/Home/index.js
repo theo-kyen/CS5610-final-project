@@ -15,7 +15,7 @@ const Home = () => {
           </div>
           <SearchBar placeholder={"search for an artist or album..."} />
         </div>
-        <Songs />
+        <Songs inProfile={false}/>
       </div>
     </div>
   );

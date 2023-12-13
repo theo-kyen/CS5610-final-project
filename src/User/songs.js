@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import * as client from "./client.js";
 import { updateUserSongs } from "../reducers/userReducer.js";
 
 const Songs = ({ inProfile }) => {
@@ -18,16 +19,23 @@ const Songs = ({ inProfile }) => {
     return minutes + ":" + seconds;
   }
 
+  async function deleteSong(id) {
+    setSongs(songs.filter((song) => song.id !== id));
+    dispatch(updateUserSongs(songs));
+    await client.updateUser(account);
+  }
+
   useEffect(() => {
     if (account) {
       setSongs(account.likedSongs);
     }
-  }, []);
+  }, [account]);
 
   return (
     <div
-      className={`d-flex flex-column ${inProfile && "w-50 mt-3"} ${
-        !inProfile && "align-items-center"
+      className={`d-flex flex-column ${
+        inProfile ? "w-50 mt-3" : "align-items-center"
+      } 
       }`}
     >
       <h2>Liked Songs</h2>
@@ -46,7 +54,16 @@ const Songs = ({ inProfile }) => {
                 <td>{song.title}</td>
                 <td>{song.artist}</td>
                 <td>{durationToMin(song.duration)}</td>
-                {inProfile && <td>X</td>}
+                {inProfile && (
+                  <td>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => deleteSong(song.id)}
+                    >
+                      X
+                    </button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

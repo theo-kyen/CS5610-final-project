@@ -29,20 +29,27 @@ const UserProfile = () => {
     <div>
       <Nav />
       <div className=" mt-3 ms-3">
-        {account != null && account != "" ? (
+        {account ? (
           <div>
             <FaCircleUser style={{ width: "100px", height: "100px" }} />
             <h2>{account.username}</h2>
-            <button
-              onClick={() => navigate("/profile/edit")}
-              className="btn btn-warning me-1"
-            >
-              Edit Account
-            </button>
-            <button onClick={signout} className="btn btn-danger">
-              Sign Out
-            </button>
-            <Songs inProfile={true}/>
+            <h4>
+              {account.firstName} {account.lastName}
+            </h4>
+            <div className="mb-3">
+              <Songs inProfile={true} />
+            </div>
+            <div>
+              <button
+                onClick={() => navigate("/profile/edit")}
+                className="btn btn-warning me-1"
+              >
+                Edit Account
+              </button>
+              <button onClick={signout} className="btn btn-danger">
+                Sign Out
+              </button>
+            </div>
           </div>
         ) : (
           <div>
